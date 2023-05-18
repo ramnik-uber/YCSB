@@ -101,7 +101,10 @@ public class ZKClient extends DB {
     try {
       int localServerId = serverId.incrementAndGet() % servers.size();
       String connectStr = servers.get(localServerId).getHostName()
-          + ":" + servers.get(localServerId).getPort() + chroot;
+          + ":" + servers.get(localServerId).getPort();
+      if (chroot != null && !chroot.isEmpty()) {
+        connectStr += chroot;
+      }
       LOG.info("ServerId: " + connectStr);
       zk = new ZooKeeper(
           connectStr,
